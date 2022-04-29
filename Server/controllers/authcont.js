@@ -7,17 +7,18 @@ require("dotenv").config();
 const maxAge = "3d";
 exports.login = (req, res, next) => {
   const { email, password } = req.body;
+
   User.findOne({ email }, (err, user) => {
     if (err) {
       return res.status(500).json({
-        message: "Error while logging in",
+        message: "Ada kesalahan dalam server",
         error: err.message,
       });
     }
 
     if (!user) {
       return res.status(401).json({
-        message: "Auth failed",
+        message: "Email Tidak Terdaftar",
       });
     }
 
@@ -30,13 +31,16 @@ exports.login = (req, res, next) => {
       }
       if (!isMatch) {
         return res.status(401).json({
-          message: "Login Gagal",
+          message: "Password Salah",
         });
       }
       const token = jwt.sign(
         {
+          firstName: user.first_name,
+          lastName: user.last_name,
           email: user.email,
           userId: user._id,
+          privilege: user.privilege,
         },
         process.env.JWT_SECRET,
         {
@@ -51,7 +55,7 @@ exports.login = (req, res, next) => {
   });
 };
 exports.signup = async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstName, lastName, privilege } = req.body;
 
   try {
     const user = new User({
@@ -59,13 +63,17 @@ exports.signup = async (req, res) => {
       last_name: lastName,
       email,
       password,
+      privilege: privilege || "user",
     });
 
     const savedUser = await user.save();
     const token = jwt.sign(
       {
+        firstName: savedUser.first_name,
+        lastName: user.last_name,
         email: savedUser.email,
         userId: savedUser._id,
+        privilege: user.privilege,
       },
       process.env.JWT_SECRET,
       {
@@ -77,6 +85,7 @@ exports.signup = async (req, res) => {
       token: token,
     });
   } catch (error) {
+
     res.status(500).json({
       message: "Ada Kesalahan ketika membuat user",
       error: error.message,

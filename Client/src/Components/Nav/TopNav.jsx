@@ -1,10 +1,22 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import authSlice from "../../features/authSlice";
 import "./style.css";
+import jwt_decode from "jwt-decode";
 
 import menu from "./img/fi_menu.svg";
 import logo from "./img/logo.png";
 const TopNav = () => {
   const [showDrop, setShowDrop] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.userData);
+
+  const handleLogout = () => {
+    dispatch(authSlice.actions.logout());
+  };
+
+  let userName = jwt_decode(user).firstName;
+
   return (
     <nav className="navbar navbar-light bg-white shadow-sm fixed-top">
       <div className="container-fluid">
@@ -34,16 +46,16 @@ const TopNav = () => {
               aria-expanded="false"
               onClick={() => setShowDrop(!showDrop)}
             >
-              BrianAR
+              {userName}
             </button>
             <ul
               className={showDrop ? "dropdown-menu show" : "dropdown-menu"}
               aria-labelledby="dropdownMenuButton1"
             >
               <li>
-                <a className="dropdown-item" href="/logout">
+                <button className="dropdown-item" onClick={handleLogout}>
                   Log Out
-                </a>
+                </button>
               </li>
             </ul>
           </div>

@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password Wajib Diisi"],
     minlength: [8, "Password Minimal 8 Karakter"],
   },
+  privilege:{
+    required: true,
+    type: String,
+  }
 });
 
 userSchema.pre("save", async function (next) {

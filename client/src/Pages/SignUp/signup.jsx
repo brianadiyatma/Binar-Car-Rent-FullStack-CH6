@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from "react";
-import "./style.css";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
+import { SignUp as signUp } from "../../features/authSlice";
+import "./style.css";
 
-import { SignIn } from "../../features/authSlice";
-
-function Login() {
+function SignUp() {
   const [auth, setAuth] = useState({
     email: "",
     password: "",
+    firstName: "",
+    lastName: "",
+    privilege: "user",
   });
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { userData, isError, isSuccess, isLoading } = useSelector(
     (state) => state.auth
   );
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(SignIn(auth));
-  };
 
   useEffect(() => {
     if (userData && isSuccess) {
       navigate("/");
     }
   }, [userData, isSuccess, navigate]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(signUp(auth));
+  };
 
   function handleChange(evt) {
     setAuth({
@@ -52,6 +55,26 @@ function Login() {
           )}
           <form onSubmit={handleSubmit}>
             <label htmlFor="email" className="form-label">
+              Nama Depan
+            </label>
+            <input
+              type="text"
+              name="firstName"
+              className="form-control mb-2"
+              value={auth.firstName}
+              onChange={handleChange}
+            />
+            <label htmlFor="email" className="form-label">
+              Nama Belakang
+            </label>
+            <input
+              type="text"
+              name="lastName"
+              className="form-control mb-2"
+              value={auth.lastName}
+              onChange={handleChange}
+            />
+            <label htmlFor="email" className="form-label">
               Email
             </label>
             <input
@@ -75,8 +98,21 @@ function Login() {
               value={auth.password}
               onChange={handleChange}
             />
+            <label htmlFor="password" className="form-label">
+              Privilege
+            </label>
+            <select
+              className="form-select mb-4"
+              aria-label="Default select example"
+              name="privilege"
+              onChange={handleChange}
+              value={auth.privilege}
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
             <p>
-              Belum Memiliki Akun ? <Link to="/signup">Klik Disini</Link>
+              Sudah Memiliki Akun ? <Link to="/">klik disini</Link>
             </p>
             {isLoading ? (
               <div className="d-flex justify-content-center">
@@ -91,7 +127,7 @@ function Login() {
                 className="btn btn-primary w-100"
                 id="liveAlertBtn"
               >
-                Sign In
+                Sign Up
               </button>
             )}
           </form>
@@ -101,4 +137,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
