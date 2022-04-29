@@ -7,6 +7,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: null,
+  googleAuth: false,
 };
 
 export const SignUp = createAsyncThunk(
@@ -49,12 +50,23 @@ const authSlice = createSlice({
   reducers: {
     retrieveLocalToken: (state) => {
       const token = localStorage.getItem("user");
+      const googleAuth = localStorage.getItem("googleAuth");
       if (token) {
         state.userData = token;
       }
+      if (googleAuth) {
+        state.googleAuth = googleAuth;
+      }
+    },
+    googleAuth: (state, action) => {
+      state.googleAuth = true;
+      state.userData = action.payload;
+      localStorage.setItem("googleAuth", state.googleAuth);
+      localStorage.setItem("user", action.payload);
     },
     logout: (state) => {
       localStorage.removeItem("user");
+      localStorage.removeItem("googleAuth");
       state.userData = null;
       state.isError = null;
       state.isSuccess = false;

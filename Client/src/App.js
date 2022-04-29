@@ -14,12 +14,7 @@ import jwt_decode from "jwt-decode";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.userData);
-  let decoded;
 
-  if (user) {
-    decoded = jwt_decode(user);
-  }
-  // console.log(decodedPrivilege);
   useEffect(() => {
     if (localStorage.getItem("user")) {
       dispatch(authSlice.actions.retrieveLocalToken());
@@ -33,7 +28,7 @@ function App() {
           path="/signin"
           element={
             user ? (
-              decoded.privilege === "admin" ? (
+              jwt_decode(user).privilege === "admin" ? (
                 <Navigate to="/dashboard" />
               ) : (
                 <Navigate to="/" />
@@ -48,7 +43,7 @@ function App() {
           path="/signup"
           element={
             user ? (
-              decoded.privilege === "admin" ? (
+              jwt_decode(user).privilege === "admin" ? (
                 <Navigate to="/dashboard" />
               ) : (
                 <Navigate to="/" />
@@ -62,7 +57,7 @@ function App() {
           path="/dashboard"
           element={
             user ? (
-              decoded.privilege === "admin" ? (
+              jwt_decode(user).privilege === "admin" ? (
                 <Navigation />
               ) : (
                 <Navigate to="/dashboard" />

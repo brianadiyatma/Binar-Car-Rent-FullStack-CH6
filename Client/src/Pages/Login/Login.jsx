@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-
-import { SignIn } from "../../features/authSlice";
+import { GoogleLogin } from "react-google-login";
+import authSlice, { SignIn } from "../../features/authSlice";
+import GoogleIcon from "./GoogleIcon";
 
 function Login() {
   const [auth, setAuth] = useState({
@@ -35,6 +36,15 @@ function Login() {
     });
   }
 
+  const googleFailure = () => {
+    console.log("GAGAL");
+    console.log("googleFailure");
+    navigate("/signup");
+  };
+
+  const googleSuccess = async (res) => {
+    dispatch(authSlice.actions.googleAuth(res.tokenId));
+  };
   return (
     <div className="wrap row m-0">
       <div className="col-md-8 img p-0">
@@ -86,13 +96,37 @@ function Login() {
                 ></div>
               </div>
             ) : (
-              <button
-                type="submit"
-                className="btn btn-primary w-100"
-                id="liveAlertBtn"
-              >
-                Sign In
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  className="btn btn-primary w-100  mb-4"
+                  id="liveAlertBtn"
+                >
+                  Sign In
+                </button>
+                <GoogleLogin
+                  clientId={process.env.REACT_APP_OAUTH_CLIENTID}
+                  render={(renderProps) => (
+                    <button
+                      type="submit"
+                      className="btn btn-primary w-100"
+                      id="liveAlertBtn"
+                      onClick={renderProps.onClick}
+                      disabled={renderProps.disabled}
+                    >
+                      <div className="d-flex align-items-center justify-content-center">
+                        <div className="me-2">
+                          <GoogleIcon />
+                        </div>
+                        Sign In With Google
+                      </div>
+                    </button>
+                  )}
+                  onSuccess={googleSuccess}
+                  onFailure={googleFailure}
+                  cookiePolicy={"single_host_origin"}
+                ></GoogleLogin>
+              </div>
             )}
           </form>
         </div>

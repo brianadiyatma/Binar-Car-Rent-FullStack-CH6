@@ -9,14 +9,27 @@ import logo from "./img/logo.png";
 const TopNav = () => {
   const [showDrop, setShowDrop] = useState(false);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.userData);
+  const user = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(authSlice.actions.logout());
   };
+  let userName;
 
-  let userName = jwt_decode(user).firstName;
-
+  try {
+    if (user.userData) {
+      if (user.googleAuth) {
+        userName = jwt_decode(user.userData).given_name;
+        console.log(userName);
+      } else {
+        userName = jwt_decode(user.userData).firstName;
+        console.log(userName);
+      }
+    }
+  } catch (err) {
+    dispatch(authSlice.actions.logout());
+    console.log("TOKEN SPOOFED");
+  }
   return (
     <nav className="navbar navbar-light bg-white shadow-sm fixed-top">
       <div className="container-fluid">
