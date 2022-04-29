@@ -71,6 +71,8 @@ const authSlice = createSlice({
       state.isError = null;
       state.isSuccess = false;
       state.isLoading = false;
+      state.message = null;
+      state.googleAuth = false;
     },
   },
   extraReducers: {
@@ -84,7 +86,6 @@ const authSlice = createSlice({
       state.message = action.payload.message;
     },
     [SignUp.rejected]: (state, action) => {
-      console.log(action.payload);
       state.isLoading = false;
       state.isError = action.payload;
     },
