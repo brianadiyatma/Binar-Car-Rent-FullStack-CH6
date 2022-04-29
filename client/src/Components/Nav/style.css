@@ -1,0 +1,118 @@
+body {
+  background-color: #f4f5f7;
+}
+
+nav img {
+  margin-left: 100px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.sideNav {
+  height: 100vh;
+  width: 80px;
+  background-color: #0d28a6;
+}
+
+.Dashboard {
+  height: 100vh;
+  width: 220px;
+  background-color: #fff;
+  margin-left: 80px;
+}
+
+.content {
+  width: 100%;
+  margin-left: 340px;
+  margin-right: 40px;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.container {
+  background-color: #fff;
+}
+
+.menu {
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 10px 0px;
+  cursor: pointer;
+}
+
+.primaryBtn {
+  width: 160px;
+  height: 36px;
+  color: white;
+  background-color: #0d28a6;
+}
+
+.active {
+  background-color: rgb(255, 255, 255, 0.3);
+}
+
+.block_act2 {
+  background-color: #cfd4ed;
+}
+
+.card {
+  width: 351px;
+  padding: 8px;
+  height: 482px;
+  overflow: hidden;
+}
+
+.card-img-top {
+  width: 80%;
+  display: block;
+  margin: 30px auto 40px;
+}
+
+.success {
+  background-color: #5cb85f;
+  width: 100%;
+  color: #fff;
+}
+
+.delete {
+  width: 100%;
+  border: solid 1px #fa2c5a;
+  color: #fa2c5a;
+  font-weight: bold;
+}
+
+.success:hover {
+  color: #fff;
+  background-color: #509c53;
+}
+
+.delete:hover {
+  color: #fa2c5a;
+  background-color: rgb(253, 246, 246);
+}
+
+.primaryBtn:hover {
+  color: #fff;
+  background-color: #1935b3;
+}
+
+.sideBorder {
+  border-left: solid 8px #0d28a6;
+  padding-left: 10px;
+}
+
+.dropdown-toggle {
+  background-color: #fff;
+  border: none;
+  width: 150px;
+  margin: 0px 30px;
+}
+
+.navbar {
+  background-color: #fff !important;
+}
