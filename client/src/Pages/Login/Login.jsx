@@ -116,7 +116,7 @@ function Login() {
                     >
                       <div className="d-flex align-items-center justify-content-center">
                         <div className="me-2">
-                          <GoogleIcon />
+                          <GoogleIcon data-testid="google-icon" />
                         </div>
                         Sign In With Google
                       </div>
